@@ -7,8 +7,11 @@ import org.openqa.selenium.support.PageFactory;
 
 public class SignInPage extends BaseDriver {
 
+    //Variables
+    public String alertContentText = "This account information is incorrect. Would you like to sign up or reset your password?";
+
     //Object repo
-    @FindBy(xpath="//input[@name='identifier']")
+    @FindBy(xpath = "//input[@name='identifier']")
     WebElement userName;
 
     @FindBy(xpath="//input[@name='password']")
@@ -19,6 +22,21 @@ public class SignInPage extends BaseDriver {
 
     @FindBy(xpath="//h1[@class='page-title']")
     WebElement pageTitle;
+
+    @FindBy(xpath="//div[@class='alert alert-error alert-in']")
+    WebElement alertBox;
+
+    @FindBy(xpath="//div[@class='alert-content']")
+    WebElement alertContent;
+
+    @FindBy(xpath="//a[@name='signUpLink']")
+    WebElement signUpLink;
+
+    @FindBy(xpath="//a[@name='passwordLink']")
+    WebElement resetPasswordLink;
+
+    @FindBy(xpath="//i[@class='fa fa-close']")
+    WebElement closeIcon;
 
     //initialization
     public SignInPage(){
@@ -34,12 +52,39 @@ public class SignInPage extends BaseDriver {
             password.sendKeys(pw);
         }
 
-        public SignInAlertPage clickSignIn(){
+        public String getPageTitle(){
+        return pageTitle.getText();
+    }
+
+        public AlertWindow clickSignInWithInsufficientData() {
             signInButton.click();
-            return new SignInAlertPage();
+            return new AlertWindow();
         }
 
-        public String getPageTitle(){
-            return pageTitle.getText();
+        public class AlertWindow{
+
+            //actions
+            public boolean displayOfAlertWindow(){
+                return alertBox.isDisplayed();
+            }
+
+            public String getAlertContent(){
+                return alertContent.getText();
+            }
+
+            public SignUpPage clickSignUp(){
+                signUpLink.click();
+                return new SignUpPage();
+            }
+
+            public ResetPasswordPage clickResetPassword(){
+                resetPasswordLink.click();
+                return new ResetPasswordPage();
+            }
+
+            public SignInPage clickCloseIcon(){
+                closeIcon.click();
+                return new SignInPage();
+            }
         }
 }

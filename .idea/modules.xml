@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/expertVoiceAssessment.iml" filepath="$PROJECT_DIR$/expertVoiceAssessment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/expertvoice-assessment.iml" filepath="$PROJECT_DIR$/expertvoice-assessment.iml" />
     </modules>
   </component>
 </project>

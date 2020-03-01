@@ -4,14 +4,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pages.ResetPasswordPage;
-import pages.SignInAlertPage;
 import pages.SignInPage;
 import pages.SignUpPage;
 
 public class testSignInAlertPage extends BaseDriver {
 
     SignInPage signInPage;
-    SignInAlertPage signInAlertPage;
+    SignInPage.AlertWindow alertWindow;
     SignUpPage signUpPage;
     ResetPasswordPage resetPasswordPage;
 
@@ -24,7 +23,7 @@ public class testSignInAlertPage extends BaseDriver {
         initializeTheBrowser();
         signInPage = new SignInPage();
         signInPage.setUserName(properties.getProperty("username"));
-        signInAlertPage = signInPage.clickSignIn();
+        alertWindow = signInPage.clickSignInWithInsufficientData();
     }
 
     ///
@@ -36,24 +35,24 @@ public class testSignInAlertPage extends BaseDriver {
     public void AlertContentTest() {
 
         //Validating the display of the alert window and it's content
-        Assert.assertTrue(signInAlertPage.displayOfAlertWindow());
-        Assert.assertEquals(signInAlertPage.getAlertContent(), signInAlertPage.alertContentText);
+        Assert.assertTrue(alertWindow.displayOfAlertWindow());
+        Assert.assertEquals(alertWindow.getAlertContent(), signInPage.alertContentText);
 
         //Validating the "sign up" link
-        signUpPage = signInAlertPage.clickSignUp();
+        signUpPage = alertWindow.clickSignUp();
         Assert.assertEquals(signUpPage.getPageTitle(), signUpPage.pageTitleText);
 
         navigateBack();
 
         //Validating the "reset your password" link
-        resetPasswordPage = signInAlertPage.clickResetPassword();
+        resetPasswordPage = alertWindow.clickResetPassword();
         Assert.assertEquals(resetPasswordPage.getPageTitle(), resetPasswordPage.pageTitleText);
 
         navigateBack();
 
         //Validating the close icon
-        signInPage = signInAlertPage.clickCloseIcon();
-        Assert.assertFalse(signInAlertPage.displayOfAlertWindow());
+        signInPage = alertWindow.clickCloseIcon();
+        Assert.assertFalse(alertWindow.displayOfAlertWindow());
     }
 
     @After
